@@ -1,0 +1,57 @@
+version: '3.8'
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    # Volume address front part should be local machine address
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+  backend:
+    container_name: backend
+    image: gxrald/flaza-backend:latest
+    restart: always
+    depends_on:
+      - postgres
+    # env_file:
+    #   - .env
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - JWT_KEY_PATH=${JWT_KEY_PATH}
+      - JWT_PUBLIC_KEY=${JWT_PUBLIC_KEY}
+      - JWT_KEY_CATCHPHRASE=${JWT_KEY_CATCHPHRASE}
+      - JWT_SECRET=${JWT_SECRET}
+      - CLOUDINARY_KEY=${CLOUDINARY_KEY}
+      - CLOUDINARY_SECRET=${CLOUDINARY_SECRET}
+      - CLOUD_NAME=${CLOUD_NAME}
+      - SEND_GRID_API_KEY=${SEND_GRID_API_KEY}
+      - RESET_TOKEN_ENC_KEY=${RESET_TOKEN_ENC_KEY}
+      - RESET_TOKEN_ENC_IV=${RESET_TOKEN_ENC_IV}
+    ports:
+      - '4001:4001'
+  frontend:
+    container_name: frontend
+    image: gxrald/flaza-frontend:latest
+    restart: always
+    depends_on:
+      - backend
+    environment:
+      - JWT_KEY_PATH=${JWT_KEY_PATH}
+      - JWT_PUBLIC_KEY=${JWT_PUBLIC_KEY}
+      - JWT_KEY_CATCHPHRASE=${JWT_KEY_CATCHPHRASE}
+      - JWT_SECRET=${JWT_SECRET}
+      - SITEKEY=${SITEKEY}
+      - SECRETKEY=${SECRETKEY}
+      - V2SITEKEY=${V2SITEKEY}
+      - V2SECRETKEY=${V2SECRETKEY}
+      - API_BASE_URL=${API_BASE_URL}
+    ports:
+      - '4000:4000'
+volumes:
+  postgres:
+

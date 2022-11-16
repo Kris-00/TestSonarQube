@@ -1,0 +1,42 @@
+{
+    "name": "fakelaza-backend",
+    "version": "1.0.0",
+    "description": "ICT3X03-Secure Software Dev",
+    "main": "./src/main.ts",
+    "scripts": {
+        "start": "npx prisma migrate dev & ts-node ./src/main.ts",
+        "dev": "nodemon ./src/main.ts",
+        "test": "jest"
+    },
+    "prisma": {
+        "seed": "ts-node prisma/seed.ts"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@prisma/client": "^4.4.0",
+        "@sendgrid/mail": "^7.7.0",
+        "@types/cookie-parser": "^1.4.3",
+        "bcrypt": "^5.1.0",
+        "cloudinary": "^1.32.0",
+        "cookie-parser": "^1.4.6",
+        "express": "^4.18.2",
+        "jsonwebtoken": "^8.5.1",
+        "moment": "^2.29.4",
+        "winston": "^3.8.2"
+    },
+    "devDependencies": {
+        "@types/bcrypt": "^5.0.0",
+        "@types/express": "^4.17.14",
+        "@types/jest": "^29.2.0",
+        "@types/jsonwebtoken": "^8.5.9",
+        "@types/node": "^18.11.0",
+        "jest": "^29.2.1",
+        "jest-mock-extended": "^3.0.1",
+        "nodemon": "^2.0.20",
+        "prisma": "^4.4.0",
+        "ts-jest": "^29.0.3",
+        "ts-node": "^10.9.1",
+        "typescript": "^4.8.4"
+    }
+}

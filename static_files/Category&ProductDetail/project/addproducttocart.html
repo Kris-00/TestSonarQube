@@ -1,0 +1,254 @@
+<html>
+    <head>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+		<script>
+			$(document).ready(function() {
+			$('.minus').click(function () {
+				var $input = $(this).parent().find('input');
+				var count = parseInt($input.val()) - 1;
+				count = count < 1 ? 1 : count;
+				$input.val(count);
+				$input.change();
+				return false;
+			});
+			$('.plus').click(function () {
+				var $input = $(this).parent().find('input');
+				$input.val(parseInt($input.val()) + 1);
+				$input.change();
+				return false;
+			});
+		});
+		
+		</script>
+		<style>
+            span {cursor:pointer; }
+            .number{
+                margin:100px;
+            }
+            .minus, .plus{
+                width:20px;
+                height:20px;
+                background:#f2f2f2;
+                border-radius:4px;
+                padding:8px 5px 8px 5px;
+                border:1px solid #ddd;
+                display: inline-block;
+                vertical-align: middle;
+                text-align: center;
+            }
+            input{
+                height:34px;
+                width: 100px;
+                text-align: center;
+                font-size: 26px;
+                border:1px solid #ddd;
+                border-radius:4px;
+          display: inline-block;
+          vertical-align: middle;
+	    </style>
+        <link rel="stylesheet" href="cartstyle.css">
+        <title>Add to Cart</title>
+    </head>
+    <body>
+	
+        <div class="Cart-Container"></div>
+        <div class="Header">
+            <h3 class="Heading">Shopping Cart</h3>
+            <!-- <h5 class="Action">Remove all</h5> -->
+        </div>
+		
+		
+        <div class="Cart-Items">
+            <div class="image-box">
+                <img id="imageid" src="" style={{ height="120px" }} />
+            </div>
+            <div class="about">
+                <h1 id="title" class="title">Hydro Flask Tumbler</h1>
+                <h3 class="subtitle">32oz</h3>
+                <h3 class="subtitle"> $</h3>
+            </div>
+			
+		<form action="shoppingcartlist.html" method="POST">
+			<div class="counter">
+				<div id="product-price" class="product-price">45.99</div>
+				<div class="product-quantity">
+					<input id="quantitynumber" type="number" value="1" min="1">
+				</div>
+				<div id="product-line-price" class="product-line-price">88.99</div>
+				<!-- <span class="minus"><div>-</div></span> -->
+				<!-- <input type="text" value="1"/> -->
+				<!-- <span class="plus"><div>+</div></span> -->
+			<div class="prices">	
+                <!-- <div class="save"><u>Save for later</u></div> -->
+				<!-- <div class="remove"><u>Remove</u></div> -->
+            </div>
+			</div>
+        <hr> 
+		
+		<div class="checkout">
+            
+                <div>
+                    <div class="Subtotal">Sub-Total</div>
+                    <div id="itemquantity" class="items">1 item(s)</div>
+                </div>
+               <div id="checkoutproductlineprice" class="product-line-price">$88.99</div>
+			  
+			  
+			<span hidden id="count">0</span>
+			<span hidden id="sum">0</span>
+			
+            <!-- <button datadataid="1" datadataprice="2000" datadatatitle="Product one">Add to cart</button> -->
+			
+			<button id="button1" data-id="5" data-price="2000" data-title="Product one" data-quantity="3">Add to cart</button>
+
+			<!-- <button class="button">Add to Cart</button> -->
+        </div>
+       
+		</form>
+        </div> 
+    </body>
+	
+	
+<script>
+	/* Set rates + misc */
+		var fadeTime = 300;
+		var linePrice2;
+		
+
+		/* Assign actions */
+		$('.product-quantity input').change( function() {
+		  updateQuantity(this);
+		});
+
+		$('.product-removal button').click( function() {
+		  removeItem(this);
+		});
+
+		/* Recalculate cart */
+		function recalculateCart()
+		{
+		  var subtotal = 0;
+		  
+		  /* Sum up row totals */
+		  $('.product').each(function () {
+			subtotal += parseFloat($(this).children('.product-line-price').text());
+		  });
+		  
+		  /* Calculate totals */
+		  var total = subtotal;
+		  
+		  /* Update totals display */
+		  $('.totals-value').fadeOut(fadeTime, function() {
+			$('#cart-subtotal').html(subtotal.toFixed(2));
+			$('#cart-total').html(total.toFixed(2));
+			if(total == 0){
+			  $('.checkout').fadeOut(fadeTime);
+			}else{
+			  $('.checkout').fadeIn(fadeTime);
+			}
+			$('.totals-value').fadeIn(fadeTime);
+		  });
+		}
+
+		/* Update quantity */
+		function updateQuantity(quantityInput)
+		{
+		  /* Calculate line price */
+		  var productRow = $(quantityInput).parent().parent();
+		  var price = parseFloat(productRow.children('.product-price').text());
+		  var quantity = $(quantityInput).val();
+		  var linePrice = price * quantity;
+		  
+		  /* Update line price display and recalc cart totals */
+		  productRow.children('.product-line-price').each(function () {
+			$(this).fadeOut(fadeTime, function() {
+			  $(this).text("$"+linePrice.toFixed(2));
+			  recalculateCart();
+			  $(this).fadeIn(fadeTime);
+			});
+		  });  
+		  
+		  var linePrice2 = linePrice.toFixed(2);
+		  
+		  document.getElementById("checkoutproductlineprice").innerHTML="$"+linePrice2;
+		  
+		  document.getElementById("itemquantity").innerHTML=quantity+" item(s)";
+		  
+		}
+
+		/* Remove item from cart */
+		function removeItem(removeButton)
+		{
+		  /* Remove row from DOM and recalc cart total */
+		  var productRow = $(removeButton).parent().parent();
+		  productRow.slideUp(fadeTime, function() {
+			productRow.remove();
+			recalculateCart();
+		  });
+		}
+	
+	let params = (new URL(document.location)).searchParams;
+	
+	let name = params.get("product");
+
+	document.getElementById("title").innerHTML = name;	
+	
+	//alert(name);
+
+	if (name == "Evian natural mineral water") {
+		document.getElementById("imageid").src="asset/1.jpg";
+		document.getElementById("product-price").innerHTML="24.90";
+		document.getElementById("product-line-price").innerHTML="$24.90";
+		document.getElementById("checkoutproductlineprice").innerHTML="$24.90";
+		
+		//document.getElementById("button1").data-id="10";
+		
+		//var buttom = document.getElementById("button1");
+		//var dataValue = buttom.getAttribute("data-id");
+		document.getElementById("button1").setAttribute("data-id", "1");
+		document.getElementById("button1").setAttribute("data-price", "24.90");
+		document.getElementById("button1").setAttribute("data-title", "Evian natural mineral water");
+		
+		//alert(dataValue);
+		
+		//document.getElementById("addtocartbutton").dataprice="24.90";
+		//document.getElementById("addtocartbutton").datatitle="Evian natural mineral water";
+		
+	} else if (name == "Hydro Flask Tumbler") {
+		document.getElementById("imageid").src="asset/hydroflask-2.jpg";
+		document.getElementById("product-price").innerHTML="45.50";
+		document.getElementById("product-line-price").innerHTML="$45.50";
+		document.getElementById("checkoutproductlineprice").innerHTML="$45.50";
+		
+		document.getElementById("button1").setAttribute("data-id", "2");
+		document.getElementById("button1").setAttribute("data-price", "45.50");
+		document.getElementById("button1").setAttribute("data-title", "Hydro Flask Tumbler");
+		
+		
+	} else if (name == "Camelback Tumbler") {
+		document.getElementById("imageid").src="asset/11.jpg";
+		document.getElementById("product-price").innerHTML="39.90";
+		document.getElementById("product-line-price").innerHTML="$39.90";
+		document.getElementById("checkoutproductlineprice").innerHTML="$39.90";
+		
+		document.getElementById("button1").setAttribute("data-id", "3");
+		document.getElementById("button1").setAttribute("data-price", "39.90");
+		document.getElementById("button1").setAttribute("data-title", "Camelback Tumbler");
+		
+	} else if (name == "Glaceau Smartwater") {
+		document.getElementById("imageid").src="asset/4.jpg"
+		document.getElementById("product-price").innerHTML="11.50";
+		document.getElementById("product-line-price").innerHTML="$11.50";
+		document.getElementById("checkoutproductlineprice").innerHTML="$11.50";
+		
+		document.getElementById("button1").setAttribute("data-id", "4");
+		document.getElementById("button1").setAttribute("data-price", "11.50");
+		document.getElementById("button1").setAttribute("data-title", "Glaceau Smartwater");
+		
+	}
+
+	document.getElementById("amount").innerHTML = subtotal;
+	
+	</script>
+	<script src="js/app.js"></script>
+</html>

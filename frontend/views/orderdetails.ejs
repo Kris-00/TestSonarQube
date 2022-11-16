@@ -1,0 +1,163 @@
+<%- include ('partials/header') %>
+    <title>Checkout example for Bootstrap</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.1/examples/checkout/">
+
+    <!-- Bootstrap core CSS -->
+    <link href="/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="form-validation.css" rel="stylesheet">
+
+    </head>
+    <!-- Navigation Bar -->
+    <nav class="navbar flex-md-nowrap p-0 ms-navbar fixed-top ">
+
+        <div class="ms-aside-toggler ms-toggler " data-target="#ms-side-nav" data-toggle="slideLeft">
+            <a href="/" class="navbar-brand font-weight-bold" style=" color: #FFA500"> FakeLaza</a>
+
+        </div>
+        <div class="top-nav centered">
+            <form class="form-inline my-2 my-lg-0" action="/product/pages/1">
+                <input class="form-control mr-sm-2" type="text" name="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+
+
+        <ul class="ms-nav-list ms-inline mb-0" id="ms-nav-options">
+
+
+            <% if (login) { %>
+                <li class="ms-nav-item">
+                    <a href="/accounts" class="nav-link" style="color: #FFA500">
+                        <%=email%>
+                    </a>
+                </li>
+                <li class="ms-nav-item mr-3">
+                    <a href="/order" class="nav-link " style="color: #FFA500">orders</a>
+                </li>
+                <li class="ms-nav-item">
+                    <a href="/cart" class="nav-link" style="color: #FFA500">cart</a>
+
+                </li>
+
+                <li class="ms-nav-item mr-3">
+                    <a href="/logout" class="nav-link" style="color: #FFA500">Sign Out</a>
+                </li>
+
+                <% } else { %>
+                    <li class="ms-nav-item">
+                        <a href="/accounts/login" class="nav-link ">Login</a>
+                    </li>
+                    <li class="ms-nav-item">
+
+                        <li class="ms-nav-item pr-3">
+                            <a href="/accounts/register" class="nav-link ">Sign Up</a>
+                        </li>
+                        <% } %>
+        </ul>
+
+
+
+    </nav>
+
+    <body class="bg-light">
+
+        <div class="container mt-4">
+            <div class="py-5 text-center">
+                <h2 class="mt-4">Order Id
+                    <%=orderId%>
+                </h2>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-12 order-md-2 mb-4">
+
+                    <table class="table text-center">
+                        <thead>
+                            <tr>
+                                <th scope="col">ProductID</th>
+                                <th scope="col">Product Name</th>
+                                <th scope="col">Category</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Price</th>
+                                </li>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% let total = 0 %>
+                                <% for (var i = 0; i < orderItems.length; i++) { %>
+                                    <tr>
+                                        <td>
+                                            <%=orderItems[i].product_id%>
+                                        </td>
+                                        <td><img src="<%=orderItems[i].product_image%>">
+                                            <%=orderItems[i].product_name%>
+                                        </td>
+                                        <td>
+                                            <%=orderItems[i].category%>
+                                        </td>
+                                        <td>
+                                            <%=orderItems[i].qty%>
+                                        </td>
+                                        <td>
+                                            <%=orderItems[i].product_price%>
+                                        </td>
+                                        <% total+=orderItems[i].product_price * orderItems[i].qty %>
+                                    </tr>
+                                    <% } %>
+
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4">Total Price</td>
+                                <td colspan="1">$
+                                    <%=total%>
+                                </td>
+                            </tr>
+                    </table>
+
+                </div>
+
+            </div>
+
+            <%- include ('partials/footer') %>
+        </div>
+
+        <!-- Bootstrap core JavaScript
+    ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script>
+            window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')
+        </script>
+        <script src="/popper.min.js"></script>
+        <script src="/bootstrap.min.js"></script>
+        <script src="/holder.min.js"></script>
+        <script>
+            // Example starter JavaScript for disabling form submissions if there are invalid fields
+            (function() {
+                'use strict';
+
+                window.addEventListener('load', function() {
+                    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                    var forms = document.getElementsByClassName('needs-validation');
+
+                    // Loop over them and prevent submission
+                    var validation = Array.prototype.filter.call(forms, function(form) {
+                        form.addEventListener('submit', function(event) {
+                            if (form.checkValidity() === false) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                            }
+                            form.classList.add('was-validated');
+                        }, false);
+                    });
+                }, false);
+            })();
+        </script>
+    </body>
+
+    </html>

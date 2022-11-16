@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>FakLaza</title>
+  <!-- Iconic Fonts -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="../vendors/iconic-fonts/font-awesome/css/all.min.css" rel="stylesheet">
+  <!-- Bootstrap core CSS -->
+  <link href="/bootstrap.min.css" rel="stylesheet">
+  <!-- jQuery UI -->
+  <link href="/jquery-ui.min.css" rel="stylesheet">
+  <!-- Page Specific CSS (Slick Slider.css) -->
+  <link href="/slick.css" rel="stylesheet">
+  <!-- Foodtech styles -->
+  <link href="/style.css" rel="stylesheet">
+
+
+</head>
+
+<body class="ms-body ms-aside ms-primary-theme ms-has-quickbar">
+
+
+  <!-- Overlays -->
+  <div class="ms-aside-overlay-left-open ms-overlay-right ms-toggler" data-target="#ms-recent-activity" data-toggle="slideRight"></div>
+
+  <!-- Main Content -->
+  <main class="body-content">
+
+
+    <%- include('partials/navbarVendor') %>
+
+    <!-- Body Content Wrapper -->
+    <div class="ms-content-wrapper">
+      <div class="row">
+
+        
+         <div class="col-md-6">
+          <div class="ms-panel">
+            <div class="ms-panel-header">
+              <h6>Product Details</h6>
+            </div>
+            <div class="ms-panel-body">
+
+              <div id="arrowSlider" class="carousel slide" data-ride="carousel" data-interval="false">
+                <div class="carousel-inner">
+                  <div class="carousel-item active">
+                    <img class="d-block w-100" src="<%=productDetails.product_image%>" alt="First slide">
+                    <div class="carousel-caption d-none d-md-block">
+                    </div>
+                  </div>
+            
+                </div>
+        
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+<div class=" col-md-6">
+
+          <div class="ms-panel ms-panel-fh">
+
+            <div class="ms-panel-body">
+              <h3 class="mt-5"><%=productDetails.product_name%></h2>
+                <form action="/vendor/edit" method="post" class="ms-form-wizard needs-validation">
+                  <input type="hidden" value="<%=productDetails.product_name%>" name="product_name">
+                  <input type="hidden" value="<%=productDetails.product_image%>" name="product_image">
+              <table class="table ms-profile-information ">
+                <tbody>
+                    <tr>
+                        <th scope="row">Product ID</th>
+                        <td class="text-center"><%=productDetails.product_id%></td>
+                      </tr>
+                  <tr>
+                    <th scope="row">Price</th>
+                    <td><input type="number" name="product_price" step="any" class="w-100 text-center form-control" value="<%=productDetails.product_price%>"></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Product Category</th>
+                    <td><input type="text" name="category" class="w-100 text-center form-control" value="<%=productDetails.category%>"> </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Stock Availiblity</th>
+                 <td><input type="number" name="product_stock" class="w-100 text-center form-control" value="<%=productDetails.product_stock%>"></td>
+                  </tr>
+                  
+              
+
+       
+				
+            <tr>
+              
+              <input type="hidden" name="product_id" value="<%=productDetails.product_id%>"/>
+              <input type="hidden" name="updated_at" value="<%=productDetails.updated_at%>">
+            </tr>
+
+                </tbody>
+              </table>
+                <button type="submit" class="btn btn-primary mt-4 d-inline w-100">Update Product</button>
+              </form>
+
+
+            </div>
+          </div>
+        </div>
+
+        <div class=" col-md-6">
+          <div class="ms-panel ms-panel-fh">
+            <div class="ms-panel-body">
+
+              <h4 class="section-title bold">Product Details </h4>
+              <p class="description">Made to be your go-to sidekick from office to trailhead, Hydro Flask stainless steel water bottles are vacuum-insulated and keep cold drinks cold and hot drinks hot for hours. Both the Standard Mouth and Wide Mouth options have plenty of room for loading in ice and come with the easy-carry Flex Cap.</p>
+
+
+            </div>
+        
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+
+
+  </main>
+
+
+
+</body>
+<%- include('./partials/footer') %>
+</html>

@@ -1,0 +1,149 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  adminId Int @id @default(autoincrement())
+  first_name  String
+  last_name String
+  accountId String @unique //Foreign Key
+  account Account @relation(fields: [accountId], references: [accountId])
+}
+
+model Vendor {
+  vendorId  Int @id @default(autoincrement())
+  store_name  String
+  address_postal  Int
+  address_street  String
+  address_city  String
+  address_country String
+  store_contact_no  Int
+  accountId String @unique //Foreign Key
+  account Account @relation(fields: [accountId], references: [accountId])
+  products  Product[]
+  orders  Order_Product[]
+}
+
+model Customer {
+  customerId  Int @id @default(autoincrement())
+  accountId String @unique //Foreign Key
+  first_name  String  @db.VarChar(255)
+  last_name String @db.VarChar(255)
+  dob DateTime
+  account Account @relation(fields: [accountId], references: [accountId])
+  orders  Order[]
+}
+
+model Account {
+  accountId String @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+  role Int
+  email String  @unique
+  password_hash  String @db.Char(60)
+  is_loggedin Boolean @db.Boolean
+  last_loggedin DateTime?
+  last_loggedin_ip  String  @db.VarChar(15)
+  is_deleted  Boolean @default(false)
+  admin Admin?
+  vendor  Vendor?
+  customer  Customer?
+}
+
+model Order {
+  orderId Int @id @default(autoincrement())
+  customerId Int
+  order_total Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime?
+  deletedAt DateTime?
+  isDeleted Boolean @default(false)
+  paymentDate DateTime? 
+  customer  Customer  @relation(fields: [customerId], references: [customerId])
+  orderItems  Order_Product[]
+}
+
+model Order_Product {
+  cartProductId Int @id @default(autoincrement())
+  orderId Int
+  productSku  String  @db.VarChar(255)
+  vendorId  Int
+  item_qty  Int
+  item_price  Int
+  review  String? @db.VarChar(512)
+  order Order @relation(fields: [orderId], references: [orderId])
+  product Product_Stock @relation(fields: [productSku], references: [productSku])
+  vendor  Vendor  @relation(fields: [vendorId], references: [vendorId])
+}
+
+model Cart {
+  cartId  Int @id @default(autoincrement())
+  customerId  Int
+  createdAt DateTime  @default(now())
+  updatedAt DateTime?
+  cartProducts  Cart_Product[]
+}
+
+model Cart_Product {
+  cartProductId Int @id @default(autoincrement())
+  cartId  Int
+  productSku  String @db.VarChar(255)
+  item_qty  Int
+  item_price  Int
+  cart  Cart  @relation(fields: [cartId], references: [cartId])
+  product Product_Stock @relation(fields: [productSku], references: [productSku])
+}
+
+model Product_Stock {
+  productSku  String  @db.VarChar(255)  @id
+  createdAt DateTime @default(now())
+  updatedAt DateTime?
+  deletedAt DateTime?
+  isDeleted Boolean @default(false)
+  productId Int
+  sku_price Int
+  stock_amt Int
+  variant String?  @db.VarChar(255)
+  product Product @relation(fields: [productId], references: [productId])
+  cartProducts  Cart_Product[]
+  orderItems  Order_Product[]
+}
+
+model Product {
+  productId Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime?
+  deletedAt DateTime?
+  isDeleted Boolean @default(false)
+  vendorId  Int
+  category_name String  @db.VarChar(255)
+  product_name  String  @db.VarChar(255)
+  product_image String  @db.VarChar(512)
+  product_price Int
+  variant_name  String?
+  vendor  Vendor @relation(fields: [vendorId], references: [vendorId])
+  productStock  Product_Stock[]
+}
+
+model Access_Tokens {
+  refreshId String  @id
+  refreshToken  String  @db.VarChar(512)
+  accessToken String  @unique @db.VarChar(512)
+  issuedAt  DateTime
+  expiresAt DateTime
+}
+
+model Reset_Password_Tokens {
+  reset_pw_id Int @id @default(autoincrement())
+  email String
+  reset_token  String  @unique
+}

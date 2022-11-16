@@ -1,0 +1,52 @@
+
+<!-- Navigation Bar -->
+<nav class="navbar flex-md-nowrap p-0 ms-navbar fixed-top ">
+
+  <div class="ms-aside-toggler ms-toggler " data-target="#ms-side-nav" data-toggle="slideLeft">
+    <a href="/" class="navbar-brand font-weight-bold"> FakeLaza</a>
+
+  </div>
+  <div class="top-nav centered">
+    <form class="form-inline my-2 my-lg-0" action="/product/pages/1" >
+      <input class="form-control mr-sm-2" type="text" name="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+  
+    
+  <ul class="ms-nav-list ms-inline mb-0" id="ms-nav-options">
+
+
+    <% if (login) { %>
+    <li class="ms-nav-item">
+      <a href="/accounts" class="nav-link "><%=email%></a>
+    </li>
+   
+    <li class="ms-nav-item mr-3" >
+      <a href="/order" class="nav-link ">orders</a>
+    </li>
+    <li class="ms-nav-item">
+      <a href="/cart" class="nav-link" >cart</a>
+      
+    </li>
+
+    <li class="ms-nav-item mr-3" >
+      <a href="/logout" class="nav-link">Sign Out</a>
+    </li>
+
+    <% } else { %>
+      <li class="ms-nav-item">
+        <a href="/accounts/login" class="nav-link ">Login</a>
+      </li>
+      <li class="ms-nav-item">
+        
+      <li class="ms-nav-item pr-3" >
+        <a href="/accounts/register" class="nav-link ">Sign Up</a>
+      </li>
+      <% } %>
+  </ul>
+
+
+
+</nav>
+

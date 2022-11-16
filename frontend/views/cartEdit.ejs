@@ -1,0 +1,153 @@
+<%- include ('partials/header') %>
+    <title>Edit Cart</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.1/examples/checkout/">
+
+    <!-- Bootstrap core CSS -->
+    <link href="/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="form-validation.css" rel="stylesheet">
+
+    </head>
+    <!-- Navigation Bar -->
+    <nav class="navbar flex-md-nowrap p-0 ms-navbar fixed-top ">
+
+        <div class="ms-aside-toggler ms-toggler " data-target="#ms-side-nav" data-toggle="slideLeft">
+            <a href="/" class="navbar-brand font-weight-bold" style=" color: #FFA500"> FakeLaza</a>
+
+        </div>
+        <div class="top-nav centered">
+            <form class="form-inline my-2 my-lg-0" action="/product/pages/1">
+                <input class="form-control mr-sm-2" type="text" name="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+
+
+        <ul class="ms-nav-list ms-inline mb-0" id="ms-nav-options">
+
+
+            <% if (login) { %>
+                <li class="ms-nav-item">
+                    <a href="/accounts" class="nav-link" style="color: #FFA500">
+                        <%=email%>
+                    </a>
+                </li>
+
+
+                <li class="ms-nav-item mr-3">
+                    <a href="/logout" class="nav-link" style="color: #FFA500">Sign Out</a>
+                </li>
+
+                <% } else { %>
+                    <li class="ms-nav-item">
+                        <a href="/accounts/login" class="nav-link ">Login</a>
+                    </li>
+                    <li class="ms-nav-item">
+
+                        <li class="ms-nav-item pr-3">
+                            <a href="/accounts/register" class="nav-link ">Sign Up</a>
+                        </li>
+                        <% } %>
+        </ul>
+
+
+
+    </nav>
+
+    <body class="bg-light">
+
+        <div class="container">
+            <div class="py-5 text-center">
+                <img class="d-block mx-auto mb-4" src="/bootstrap-solid.svg" alt="" width="72" height="72">
+                <h2 class="mt-4">Update Cart</h2>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 order-md-2 mb-4">
+                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="text-muted">Your cart</span>
+                        <span class="badge badge-secondary badge-pill"><%=cartItems.length%></span>
+                    </h4>
+                    <ul class="list-group mb-3">
+                        <% var total = 0 %>
+                            <% for (var i=0; i<cartItems.length; i++) { %>
+                                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                                    <div>
+                                        <h6 class="my-0">
+                                            <%=cartItems[i].product_name%>
+                                        </h6>
+                                        <small class="text-muted"><%=cartItems[i].category%> </small>
+                                    </div>
+                                    <% var total = + cartItems[i].product_price * cartItems[i].qty %>
+                                        <form action="/cart/edit" method="post">
+                                            <input type="hidden" name="product_id" value="<%=cartItems[i].product_id%>">
+                                            <input type="number" class="form-control w-50" name="quantity" value="<%=cartItems[i].qty%>" min="1" style="width: 50px">
+                                            <button type="submit " class="btn btn-primary btn-sm w-50">Update</button>
+                                        </form>
+                                        <form action="/cart/delete" method="post">
+                                            <input type="hidden" name="product_id" value="<%=cartItems[i].product_id%>">
+
+                                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                        </form>
+                                        <span class="text-muted">$<%=cartItems[i].product_price * cartItems[i].qty%></span>
+                                </li>
+                                <% total+= cartItems[i].product_price * cartItems[i].qty %>
+                                    <% } %>
+
+                                        <li class="list-group-item d-flex justify-content-between">
+                                            <span>Total (USD)</span>
+                                            <strong>$<%=total%></strong>
+                                        </li>
+                    </ul>
+
+                </div>
+
+            </div>
+
+            <footer class="my-5 pt-5 text-muted text-center text-small">
+                <p class="mb-1">&copy; 2017-2018 Company Name</p>
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="#">Privacy</a></li>
+                    <li class="list-inline-item"><a href="#">Terms</a></li>
+                    <li class="list-inline-item"><a href="#">Support</a></li>
+                </ul>
+            </footer>
+        </div>
+
+        <!-- Bootstrap core JavaScript
+    ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script>
+            window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')
+        </script>
+        <script src="/popper.min.js"></script>
+        <script src="/bootstrap.min.js"></script>
+        <script src="/holder.min.js"></script>
+        <script>
+            // Example starter JavaScript for disabling form submissions if there are invalid fields
+            (function() {
+                'use strict';
+
+                window.addEventListener('load', function() {
+                    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                    var forms = document.getElementsByClassName('needs-validation');
+
+                    // Loop over them and prevent submission
+                    var validation = Array.prototype.filter.call(forms, function(form) {
+                        form.addEventListener('submit', function(event) {
+                            if (form.checkValidity() === false) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                            }
+                            form.classList.add('was-validated');
+                        }, false);
+                    });
+                }, false);
+            })();
+        </script>
+    </body>
+
+    </html>

@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>FakeLaza</title>
+  <!-- Iconic Fonts -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="../vendors/iconic-fonts/font-awesome/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../vendors/iconic-fonts/flat-icons/flaticon.css">
+  <link rel="stylesheet" href="../vendors/iconic-fonts/cryptocoins/cryptocoins.css">
+  <link rel="stylesheet" href="../vendors/iconic-fonts/cryptocoins/cryptocoins-colors.css">
+  <!-- Bootstrap core CSS -->
+  <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+  <!-- jQuery UI -->
+  <link href="../assets/css/jquery-ui.min.css" rel="stylesheet">
+  <!-- Page Specific CSS (Slick Slider.css) -->
+  <link href="../assets/css/slick.css" rel="stylesheet">
+  <!-- Foodtech styles -->
+  <link href="../assets/css/style.css" rel="stylesheet">
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="100x100" href="../favicon3.ico">
+  <!-- jQuery -->
+  <!--link href="../../assets/js/jquery-3.3.1.min.js" rel="stylesheet"-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  
+  <script>
+  var data = [{
+	name: "Camelback Tumbler",
+	quantity: 3300,
+	price: 39.9,
+	desc: "Insulated drip-proof thermo mug, 500ml",
+	rating: 5,
+	category: "tumbler",
+	link: "productdetailcamel.html",
+	image: "asset/tumbler-1.jpg"
+  },
+  {
+	name: "Hydro Flask Tumbler",
+	quantity: 6224,
+	price: 45.5,
+	desc: "Hydro Flask 32oz wide mouth flex cap snapper",
+	rating: 4.5,
+	category: "tumbler",
+	link: "productdetail.html",
+	image: "asset/hydroflask-2.jpg"
+  },
+  {
+	name: "Evian natural mineral water",
+	quantity: 1230,
+	price: 24.9,
+	desc: "Mineral water 1.5LX12 Bottles Carton",
+	rating: 5.0,
+	category: "drinking water",
+	link: "productdetailevian.html",
+	image: "asset/evian-1.jpg"
+  },
+  {
+	name: "Glaceau Smartwater",
+	quantity: 4478,
+	price: 11.5,
+	desc: "Glaceau Smartwater (6x500ML) Pack",
+	rating: 4.5,
+	category: "drinking water",
+	link: "productdetailsmart.html",
+	image: "asset/glaceau-1.jpg"
+  },
+  ]
+  
+  $(document).ready(function(){
+    for (let i = 0; i < data.length; i++) {
+		$("#items").append(`
+		 <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6" id="item-${i}">
+              <div class="ms-card">
+			    <a href="${data[i].link}">
+                <div class="ms-card-img">
+                  <img src="${data[i].image}" alt="card_img">
+                </div>
+                <div class="ms-card-body">
+                  <div class="new">
+                    <h6 class="mb-0" id="name-${i}">${data[i].name}</h6>
+                    <h6 class="ms-text-primary mb-0">$${data[i].price}</h6>
+                  </div>
+                  <div class="new meta" id="status-${i}">
+                    <p>Qty:${data[i].quantity}</p>
+                  </div>
+                  <p>${data[i].desc}</p>
+                  <div class="new col-xl-6">
+					<div class="row" id="star-${i}">
+						<p>${data[i].rating}&nbsp;</p>
+					</div>
+				  </div>
+                </div>
+				</a>
+              </div>
+		`)
+
+		if (data[i].quantity > 0) {
+		  $("#status-"+i).append(`<span class="badge badge-success">In stock</span>`)
+		} else {
+			$("#status-"+i).append(`<span class="badge badge-primary">Out of stock</span>`)
+		}
+		
+		let rating = data[i].rating
+		while (rating > 0) {
+			if (rating >= 1) {
+				rating -= 1
+				$("#star-"+i).append(`<i class="material-icons">star</i>`)
+			} else if (rating >= 0.5) {
+				rating -= 0.5
+				$("#star-"+i).append(`<i class="material-icons">star_half</i>`)
+			}
+		}
+	}
+	
+	
+	$("#search").keyup(function() {
+		var value = $(this).val().toLowerCase();		
+	
+		for (let i = 0; i < data.length; i++) {
+			if (data[i].name.toLowerCase().includes(value) ) {
+				$("#item-"+i).show()
+			} else {
+				$("#item-"+i).hide()
+			}
+		}
+	});
+	
+	$('#categoryDrinkingWater').change(function() {
+		if(this.checked) {
+		for (let i = 0; i < data.length; i++) {
+			if (data[i].category === "drinking water" ) {
+				$("#item-"+i).show()
+			} else {
+				$("#item-"+i).hide()
+			}
+		}           
+        }
+		
+		console.log($('#categoryTumbler').prop('checked'))
+		
+		if($('#categoryTumbler').prop('checked')) {
+		for (let i = 0; i < data.length; i++) {
+			if (data[i].category === "tumbler" ) {
+				$("#item-"+i).show()
+			} 
+		}           
+        }
+	
+	});
+	
+	$('#categoryTumbler').change(function() {
+		if(this.checked) {
+		for (let i = 0; i < data.length; i++) {
+			if (data[i].category === "tumbler" ) {
+				$("#item-"+i).show()
+			} else {
+				$("#item-"+i).hide()
+			}
+		}           
+        }
+		
+		if($('#categoryDrinkingWater').prop('checked')) {
+		for (let i = 0; i < data.length; i++) {
+			if (data[i].category === "drinking water" ) {
+				$("#item-"+i).show()
+			} 
+		}           
+        }
+	
+	});
+	
+  });
+  
+
+
+
+  </script>
+
+</head>
+
+<body>
+
+  <!-- Preloader -->
+  <div id="preloader-wrap">
+    <div class="spinner spinner-8">
+      <div class="ms-circle1 ms-child"></div>
+      <div class="ms-circle2 ms-child"></div>
+      <div class="ms-circle3 ms-child"></div>
+      <div class="ms-circle4 ms-child"></div>
+      <div class="ms-circle5 ms-child"></div>
+      <div class="ms-circle6 ms-child"></div>
+      <div class="ms-circle7 ms-child"></div>
+      <div class="ms-circle8 ms-child"></div>
+      <div class="ms-circle9 ms-child"></div>
+      <div class="ms-circle10 ms-child"></div>
+      <div class="ms-circle11 ms-child"></div>
+      <div class="ms-circle12 ms-child"></div>
+    </div>
+  </div>
+  
+    <!-- Sidebar Navigation Left -->
+  <aside id="ms-side-nav" class="side-nav fixed ms-aside-scrollable ms-aside-left">
+  
+      <!-- Logo -->
+    <div class="logo-sn ms-d-block-lg">
+      <a class="pl-0 ml-0 text-center" href="../../index.html"> <img src="https://via.placeholder.com/216x62" alt="logo"> </a>
+    </div>
+  
+  
+    <!-- Navigation -->
+    <ul class="accordion ms-main-aside fs-14" id="side-nav-accordion">
+      <!-- Dashboard -->
+      <li class="menu-item">
+        <a href="#" class="has-chevron" data-toggle="collapse" data-target="#dashboard" aria-expanded="false" aria-controls="dashboard">
+          <span><i class="material-icons fs-16">dashboard</i>Category </span>
+        </a>
+        <ul id="dashboard" class="collapse" aria-labelledby="dashboard" data-parent="#side-nav-accordion">
+          <li>
+			<div class="form-check">
+			<input class="form-check-input" type="checkbox" value="" id="categoryDrinkingWater">
+			<label class="form-check-label" for="flexCheckDefault">
+				drinking water
+			</label>
+			</div>
+		  </li>
+		<li>
+			<div class="form-check">
+				<input class="form-check-input" type="checkbox" value="" id="categoryTumbler">
+				<label class="form-check-label" for="flexCheckDefault">
+					tumbler
+				</label>
+			</div>
+		  </li>
+
+        </ul>
+      </li>
+	  </ul>
+  
+  </aside>
+
+  <!-- Main Content -->
+  <main class="body-content">
+
+    <!-- Navigation Bar -->
+    <nav class="navbar ms-navbar">
+
+      <div class="ms-aside-toggler ms-toggler pl-0" data-target="#ms-side-nav" data-toggle="slideLeft">
+        <span class="ms-toggler-bar bg-primary"></span>
+        <span class="ms-toggler-bar bg-primary"></span>
+        <span class="ms-toggler-bar bg-primary"></span>
+      </div>
+
+      <div class="logo-sn logo-sm ms-d-block-sm">
+        <a class="pl-0 ml-0 text-center navbar-brand mr-0" href="../../index.html"><img src="https://via.placeholder.com/84x41" alt="logo"> </a>
+      </div>
+
+      <ul class="ms-nav-list ms-inline mb-0" id="ms-nav-options">
+        <li class="ms-nav-item ms-search-form pb-0 py-0">
+          <form class="ms-form" method="post">
+            <div class="ms-form-group my-0 mb-0 has-icon fs-14">
+              <input id="search" type="search" class="ms-form-input" name="search" placeholder="Search here..." value="">
+              <i class="flaticon-search text-disabled"></i>
+            </div>
+          </form>
+        </li>
+	    <li class="ms-nav-item dropdown">
+          <a href="#" class="text-disabled ms-has-notification" id="cartDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-shopping-cart"></i></a>
+          <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="cartDropdown">
+            <li class="dropdown-menu-header">
+              <h6 class="dropdown-header ms-inline m-0"><span class="text-disabled">Items</span></h6><span class="badge badge-pill badge-warning">0 items</span>
+            </li>
+            <li class="dropdown-divider"></li>
+            <li class="dropdown-menu-footer text-center">
+              <!--a href="apps/ecart.html">Go to Inbox</a-->
+              <a href="#">View shopping cart</a-->
+            </li>
+          </ul>
+        </li>
+        <li class="ms-nav-item dropdown">
+          <a href="#" class="text-disabled ms-has-notification" id="mailDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-comments"></i></a>
+          <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="mailDropdown">
+            <li class="dropdown-menu-header">
+              <h6 class="dropdown-header ms-inline m-0"><span class="text-disabled">Mail</span></h6><span class="badge badge-pill badge-success">2 New</span>
+            </li>
+            <li class="dropdown-divider"></li>
+            <li class="ms-scrollable ms-dropdown-list">
+              <a class="media p-2" href="#">
+                <div class="ms-chat-status ms-status-online ms-chat-img mr-2 align-self-center">
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Evian_logo.svg/2560px-Evian_logo.svg.png" class="ms-img-round" alt="people">
+                </div>
+                <div class="media-body">
+                  <span>Thanks for choosing evian! Your delivery has been confirmed</span>
+                  <p class="fs-10 my-1 text-disabled"><i class="material-icons">access_time</i> 28 minutes ago</p>
+                </div>
+              </a>
+              <a class="media p-2" href="#">
+                <div class="ms-chat-status ms-status-offline ms-chat-img mr-2 align-self-center">
+                  <img src="https://logos-world.net/wp-content/uploads/2022/04/Tupperware-Logo.png" class="ms-img-round" alt="people">
+                </div>
+                <div class="media-body">
+                  <span>Promotion on the new sporty series</span>
+                  <p class="fs-10 my-1 text-disabled"><i class="material-icons">access_time</i> 6 hours ago</p>
+                </div>
+              </a>
+            </li>
+            <li class="dropdown-divider"></li>
+            <li class="dropdown-menu-footer text-center">
+              <!--a href="apps/email.html">Go to Inbox</a-->
+              <a href="#">View all messages</a-->
+            </li>
+          </ul>
+        </li>
+        <li class="ms-nav-item dropdown">
+          <a href="#" class="text-disabled ms-has-notification" id="notificationDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bell"></i></a>
+          <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="notificationDropdown">
+            <li class="dropdown-menu-header">
+              <h6 class="dropdown-header ms-inline m-0"><span class="text-disabled">Notifications</span></h6><span class="badge badge-pill badge-info">3 New</span>
+            </li>
+            <li class="dropdown-divider"></li>
+            <li class="ms-scrollable ms-dropdown-list">
+              <a class="media p-2" href="#">
+                <div class="media-body">
+                  <span>12 ways to maximize your cash back</span>
+                  <p class="fs-10 my-1 text-disabled"><i class="material-icons">access_time</i> 30 seconds ago</p>
+                </div>
+              </a>
+              <a class="media p-2" href="#">
+                <div class="media-body">
+                  <span>Your account was logged in from a new IP</span>
+                  <p class="fs-10 my-1 text-disabled"><i class="material-icons">access_time</i> 2 hours ago</p>
+                </div>
+              </a>
+			  <a class="media p-2" href="#">
+                <div class="media-body">
+                  <span>Thank you for registering. Welcome to LevMall!</span>
+                  <p class="fs-10 my-1 text-disabled"><i class="material-icons">access_time</i> 5 hours ago</p>
+                </div>
+              </a>
+            </li>
+            <li class="dropdown-divider"></li>
+            <li class="dropdown-menu-footer text-center">
+              <a href="#">View all Notifications</a>
+            </li>
+          </ul>
+        </li>
+
+        <li class="ms-nav-item ms-nav-user dropdown">
+          <a href="#" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <img class="ms-user-img ms-img-round float-right" src="https://via.placeholder.com/270x270" alt="people"> </a>
+          <ul class="dropdown-menu dropdown-menu-right user-dropdown" aria-labelledby="userDropdown">
+            <li class="dropdown-menu-header">
+              <h6 class="dropdown-header ms-inline m-0"><span class="text-disabled">Welcome, Anny Farisha</span></h6>
+            </li>
+            <li class="dropdown-divider"></li>
+            <li class="ms-dropdown-list">
+              <a class="media fs-14 p-2" href="../prebuilt-pages/user-profile.html"> <span><i class="flaticon-user mr-2"></i> Profile</span> </a>
+              <a class="media fs-14 p-2" href="../apps/email.html"> <span><i class="flaticon-mail mr-2"></i> Inbox</span> <span class="badge badge-pill badge-info">3</span> </a>
+              <a class="media fs-14 p-2" href="../prebuilt-pages/user-profile.html"> <span><i class="flaticon-gear mr-2"></i> Account Settings</span> </a>
+            </li>
+            <li class="dropdown-divider"></li>
+            <li class="dropdown-menu-footer">
+              <a class="media fs-14 p-2" href="../prebuilt-pages/lock-screen.html"> <span><i class="flaticon-security mr-2"></i> Lock</span> </a>
+            </li>
+            <li class="dropdown-menu-footer">
+              <a class="media fs-14 p-2" href="../prebuilt-pages/default-login.html"> <span><i class="flaticon-shut-down mr-2"></i> Logout</span> </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+
+      <div class="ms-toggler ms-d-block-sm pr-0 ms-nav-toggler" data-toggle="slideDown" data-target="#ms-nav-options">
+        <span class="ms-toggler-bar bg-primary"></span>
+        <span class="ms-toggler-bar bg-primary"></span>
+        <span class="ms-toggler-bar bg-primary"></span>
+      </div>
+
+    </nav>
+
+    <!-- Body Content Wrapper -->
+    <div class="ms-content-wrapper">
+
+      <div class="row">
+        <div class="col-md-12">
+          <nav aria-label="breadcrumb" class="new">
+            <ol class="breadcrumb pl-0">
+              <li class="breadcrumb-item"><a href="#"><i class="material-icons">home</i> Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Best Seller</li>
+            </ol>
+          </nav>
+          <div class="row" id="items" />
+        </div>
+      </div>
+    </div>
+
+
+    </div>
+
+
+
+
+  </main>
+
+
+  <!-- SCRIPTS -->
+  <!-- Global Required Scripts Start -->
+  <script src="../assets/js/jquery-3.3.1.min.js"></script>
+  <script src="../assets/js/popper.min.js"></script>
+  <script src="../assets/js/bootstrap.min.js"></script>
+  <script src="../assets/js/perfect-scrollbar.js"> </script>
+  <script src="../assets/js/jquery-ui.min.js"> </script>
+  <!-- Global Required Scripts End -->
+
+  <!-- Page Specific Scripts Start -->
+  <script src="../assets/js/slick.min.js"> </script>
+  <script src="../assets/js/moment.js"> </script>
+  <script src="../assets/js/jquery.webticker.min.js"> </script>
+  <script src="../assets/js/Chart.bundle.min.js"> </script>
+  <script src="../assets/js/Chart.Financial.js"> </script>
+  <!-- Page Specific Scripts Finish -->
+
+  <!-- Foodtech core JavaScript -->
+  <script src="../assets/js/framework.js"></script>
+
+  <!-- Settings -->
+  <script src="../assets/js/settings.js"></script>
+
+</body>
+
+</html>

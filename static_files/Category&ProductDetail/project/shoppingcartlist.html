@@ -1,0 +1,343 @@
+<html>
+    <head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script>
+			$(document).ready(function() {
+			$('.minus').click(function () {
+				var $input = $(this).parent().find('input');
+				var count = parseInt($input.val()) - 1;
+				count = count < 1 ? 1 : count;
+				$input.val(count);
+				$input.change();
+				return false;
+			});
+			$('.plus').click(function () {
+				var $input = $(this).parent().find('input');
+				$input.val(parseInt($input.val()) + 1);
+				$input.change();
+				return false;
+			});
+		});
+    </script>
+	<style>
+	
+		/* Global settings */
+		$color-border: #eee;
+		$color-label: #aaa;
+		$font-default: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+		$font-bold: 'HelveticaNeue-Medium', 'Helvetica Neue Medium';
+	
+		/* Global "table" column settings */
+		.product-image { float: left; width: 5%; }
+		.product-details { float: left; width: 37%; }
+		.product-price { float: left; width: 12%; }
+		.product-quantity { float: left; width: 15%; }
+		.product-removal { float: left; width: 20%; text-align: center; }
+		.product-line-price { float: left; width: 12%; text-align: center; }
+	
+        
+        html{
+            padding: 20px 30px 30px 20px;
+        }
+	
+		/* Body/Header stuff */
+		body {
+		  padding: 0px 30px 30px 20px;
+		  font-family: $font-default;
+		  font-weight: 100;
+          margin: 0;
+          padding: 0;
+          background: linear-gradient(to bottom right, #E3F0FF, #FAFCFF);
+          height: 100vh;
+          justify-content: center;
+          align-items: center;
+		}
+
+		h1 {
+		  font-weight: 100;
+		}
+
+		label {
+		  color: $color-label;
+		}
+
+		.shopping-cart {
+		  margin-top: -45px;
+		}
+
+
+		/* Column headers */
+		.column-labels {
+		   
+			padding-bottom: 15px;
+			margin-bottom: 15px;
+			border-bottom: 1px solid $color-border;
+            line-height: 10px;
+            font-size: 18px;
+            font-family: 'Open Sans';
+            font-weight: 700;
+            padding-top: 5px;
+            font-weight: 800;
+            color: #202020;
+            
+		  }
+
+
+		/* Product entries */
+		.product {
+		  margin-bottom: 20px;
+		  padding-bottom: 10px;
+		  border-bottom: 1px solid $color-border;
+		  
+		  .product-details {
+			
+			.product-description {
+			  margin: 5px 20px 5px 0;
+			  line-height: 1.4em;
+			}
+		  }
+		  
+		  .product-quantity {
+			input {
+			  width: 40px;
+			  
+			}
+		  }
+		}
+        .product-title {
+			  font-family: $font-bold;
+			}
+        .remove-product {
+			border: 0;
+			padding: 4px 8px;
+			background-color: #c66;
+			color: #fff;
+			font-family: $font-bold;
+			font-size: 12px;
+			border-radius: 3px;
+            margin-right: 900px;
+            margin-left: 100px;
+		  }
+		  
+		  .remove-product:hover {
+			background-color: #a44;
+		  }
+
+		/* Totals section */
+		.totals {
+			float: right;
+			margin-bottom: 10px;
+		}
+        .totals-item {
+			clear: both;
+			width: 100%;
+			margin-bottom: 10px;
+            font-size: 24px;
+            font-family: 'Open Sans';
+            font-weight: 700;
+            color: #202020;
+		  }
+        .totals-label{
+            position: absolute;
+            right: 150px;
+        }
+        .totals-value {
+			  float: right;
+			  width: 21%;
+			  text-align: right;
+              color: darkorange;
+              position: absolute;
+              right: 50px;
+			}
+		.totals-item-total {
+			font-family: $font-bold;
+		  }
+		
+		.continueshopping		{
+		  float: right;
+		  border: 0;
+		  margin-top: 20px;
+		  padding: 6px 25px;
+		  background-color: #DC7633;
+		  color: #fff;
+		  font-size: 25px;
+		  border-radius: 3px;
+          margin-right: 30px;
+		}
+
+		.continueshopping:hover {
+		  background-color: #D35400;
+		}
+		
+		.space {
+		  width: 4px;
+		  height: auto;
+		  display: inline-block;
+		}
+		
+		.checkout {
+		  float: right;
+		  border: 0;
+		  margin-top: 20px;
+		  padding: 6px 25px;
+		  background-color: #DC7633;
+		  color: #fff;
+		  font-size: 25px;
+		  border-radius: 3px;
+          margin-left: 920px;
+          margin-right: 30px;
+		}
+
+		.checkout:hover {
+		  background-color: #D35400;
+		}
+	</style>
+    <title>Summary</title>
+	</head>
+	
+<h1>Shopping Cart Summary</h1>
+<br>
+<br>
+
+<div class="shopping-cart">
+  
+  <div class="column-labels">
+    <label class="product-details">Product</label>
+    <label class="product-price">Price</label>
+    <label class="product-quantity">Quantity</label>
+    <label class="product-removal">Remove</label>
+    <label class="product-line-price">Total</label>
+  </div>
+
+  <table>
+        <thead>
+           
+        </thead>
+        <tbody id="tbody">
+				
+        </tbody>
+   </table>
+	
+  </div>
+ 
+  <br>
+  <br>
+  <hr>
+	<div class="totals">
+    <div class="totals-item">
+      <label class="totals-label">Subtotal</label>
+      <div class="totals-value" id="cart-subtotal">71.97</div>
+    </div>
+    
+	<div>
+		<button class="checkout">Checkout</button>
+		<div class="space">
+		
+		<a href="productgrid.html">
+		<button class="continueshopping">Continue Shopping</button>
+		</a>
+    </div>
+	  
+</div>
+
+<script src="js/cart.js"></script>
+<script>
+	/* Set rates + misc */
+		var fadeTime = 300;
+		
+		var subtotal = 0;
+		  
+		  /* Sum up row totals */
+		  $('.product').each(function () {
+			subtotal += parseFloat($(this).children('.product-line-price').text());
+		  });
+		  
+		  /* Calculate totals */
+		  var total = subtotal;
+		  
+		  /* Update totals display */
+		  $('.totals-value').fadeOut(fadeTime, function() {
+			$('#cart-subtotal').html(subtotal.toFixed(2));
+			$('#cart-total').html(total.toFixed(2));
+			if(total == 0){
+			  $('.checkout').fadeOut(fadeTime);
+			}else{
+			  $('.checkout').fadeIn(fadeTime);
+			}
+			$('.totals-value').fadeIn(fadeTime);
+		  });
+		
+		
+		
+
+		/* Assign actions */
+		$('.product-quantity input').change( function() {
+		  updateQuantity(this);
+		});
+
+		$('.product-removal button').click( function() {
+		  removeItem(this);
+		  //localStorage.removeItem(this);
+		});
+		
+		
+		/* Recalculate cart */
+		function recalculateCart()
+		{
+		  var subtotal = 0;
+		  
+		  /* Sum up row totals */
+		  $('.product').each(function () {
+			subtotal += parseFloat($(this).children('.product-line-price').text());
+		  });
+		  
+		  /* Calculate totals */
+		  var total = subtotal;
+		  
+		  /* Update totals display */
+		  $('.totals-value').fadeOut(fadeTime, function() {
+			$('#cart-subtotal').html(subtotal.toFixed(2));
+			$('#cart-total').html(total.toFixed(2));
+			if(total == 0){
+			  $('.checkout').fadeOut(fadeTime);
+			}else{
+			  $('.checkout').fadeIn(fadeTime);
+			}
+			$('.totals-value').fadeIn(fadeTime);
+		  });
+		}
+
+		/* Update quantity */
+		function updateQuantity(quantityInput)
+		{
+		  /* Calculate line price */
+		  var productRow = $(quantityInput).parent().parent();
+		  var price = parseFloat(productRow.children('.product-price').text());
+		  var quantity = $(quantityInput).val();
+		  var linePrice = price * quantity;
+		  
+		  /* Update line price display and recalc cart totals */
+		  productRow.children('.product-line-price').each(function () {
+			$(this).fadeOut(fadeTime, function() {
+			  $(this).text(linePrice.toFixed(2));
+			  recalculateCart();
+			  $(this).fadeIn(fadeTime);
+			});
+		  });  
+		}
+		
+		/* Remove item from cart */
+		function removeItem(removeButton)
+		{
+		  /* Remove row from DOM and recalc cart total */
+		  var productRow = $(removeButton).parent().parent();
+		  productRow.slideUp(fadeTime, function() {
+			productRow.remove();
+			recalculateCart();
+		  });
+		  
+		  //localStorage.removeItem("cart", cart[1]);
+		
+		}
+	</script>
+</html>

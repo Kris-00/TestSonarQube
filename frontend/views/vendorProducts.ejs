@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('partials/header') %>
+<link href="/slick.css" rel="stylesheet">
+
+</head>
+
+<body class="ms-body ms-aside ms-primary-theme ">
+
+
+ 
+  <!-- Main Content -->
+  <main class="body-content">
+
+    <%- include('partials/navbarVendor') %>
+    
+
+
+    
+
+    
+    <div class="ms-content-wrapper box">
+
+        <!-- Products -->
+    <div class="container pt-5">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-12">
+                <h4 class="text-center mt-4 font-weight-bold ">Products</h2>
+                <hr>
+              </div>
+            </div>
+          
+      <div class="row">
+        
+        
+
+        <% for(var i=0; i<products.length; i++){ %>
+          <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="ms-card">
+              <div class="ms-card-img">
+                <img src="<%=products[i].product_image%>" width="530" height="240" alt="card_img">
+              </div>
+              <div class="ms-card-body ">
+                <div class="wrapper-new2">
+                  <h6><%=products[i].product_name%></h6>
+                  <span class="white">$<%=products[i].product_price%> </span>
+                </div>
+                <div class="wrapper-new1">
+                  <span>Category : <%=products[i].category%></span>
+                    <span>Stock: <%=products[i].product_stock%></span>
+                </div>
+              
+                <a href="/vendor/<%=products[i].product_id%>" class="btn btn-primary btn-block">See More</a>
+              </div>
+            </div>
+          </div>
+        <% } %> 
+       
+    
+      </div>
+
+    </div>
+
+
+
+  </main>
+
+
+
+
+</body>
+<%- include('./partials/footer') %>
+</html>
